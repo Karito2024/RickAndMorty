@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'; // Importa React y hooks para gestionar estado y efectos
-import { ScrollView, Text } from 'react-native'; // Importa componentes de React Native
+import { ScrollView, StyleSheet, Text } from 'react-native'; // Importa componentes de React Native
 import { useNavigation } from '@react-navigation/native'; // Hook para la navegación
 import { Character } from '../types/character'; // Importa el tipo de datos Character
-import global from '../styles/global'; // Importa estilos globales
+// import global from '../styles/global'; // Importa estilos globales
 import api from '../api/api'; // Importa la instancia de la API
 import CharacterCard from '../components/CharacerCard';
  // Importa el componente de tarjeta de personaje
 
-export default function HomeScreen() {
+export default function HomeScreen({route}:any) {
+  const {user}= route.params;
   const [characters, setCharacters] = useState<Character[]>([]); // Estado para almacenar los personajes
   const navigation = useNavigation(); // Obtiene el objeto de navegación
 
@@ -23,7 +24,10 @@ export default function HomeScreen() {
   }, []);
 
   return (
+    
     <ScrollView style={global.container}>
+      {/* Título del usuario */}
+      <Text style={global.userTittle}>{user}</Text>
       {/* Contenedor desplazable que usa los estilos globales */}
 
       <Text style={global.tittle}>Personajes de Rick & Morty</Text>
@@ -36,3 +40,23 @@ export default function HomeScreen() {
     </ScrollView>
   );
 }
+ // Componente que representa la pantalla principal de la app, que muestra los personajes de Rick & Morty según el usuario seleccionado
+
+// Estilos globales
+ const global = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 20,
+  },
+  tittle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  userTittle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+});
